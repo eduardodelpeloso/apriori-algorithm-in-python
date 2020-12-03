@@ -1,16 +1,9 @@
 #!/bin/python3
 
-import math
-import os
-import random
-import re
-import sys
 import pandas as pd
 from pandas.core.common import flatten as pdflat
 from itertools import product
 
-
-#@profile
 def attributesSet(numberOfAttributes, supportThreshold):
 
     # Load data into a Pandas DataFrame, without a header row.
@@ -37,7 +30,7 @@ def attributesSet(numberOfAttributes, supportThreshold):
 
     for attribNum in range(numberOfAttributes):
 
-        if (attribNum == 0):
+        if attribNum == 0:
             combs = [i for i in range(12)]  # list([range(12)])
         else:
             combs = product(leftPart, rightPart)
@@ -69,16 +62,19 @@ def attributesSet(numberOfAttributes, supportThreshold):
                     prod.reverse()
 
                 badValue = False
-                #testParam = (data[attributes[comb if attribNum == 0 else comb[0]]] == (prod if attribNum == 0 else prod[0]))
-                testParam = (data[attributes[comb if attribNum == 0 else comb[0]]].values == (prod if attribNum == 0 else prod[0]))
-                
+                testParam = data[
+                    attributes[comb if attribNum == 0 else comb[0]]
+                ].values == (prod if attribNum == 0 else prod[0])
+
                 for i in range(1, attribNum + 1):
                     if prod[i] in badValuesTuple:
                         badValue = True
                         break
-                    #testParam = testParam & (data[attributes[comb if attribNum == 0 else comb[i]]] == (prod if attribNum == 0 else prod[i]))
-                    testParam = testParam & (data[attributes[comb if attribNum == 0 else comb[i]]].values == (prod if attribNum == 0 else prod[i]))
-    
+                    testParam = testParam & (
+                        data[attributes[comb if attribNum == 0 else comb[i]]].values
+                        == (prod if attribNum == 0 else prod[i])
+                    )
+
                 if badValue == True:
                     continue
 
@@ -103,14 +99,14 @@ def attributesSet(numberOfAttributes, supportThreshold):
             if badAttribList[i] == False:
                 leftPart.append(combs[i])
 
-        if (attribNum == 0):
+        if attribNum == 0:
             rightPart = leftPart
 
     return finalResults
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     result = attributesSet(4, 0.6)
 
-    print('\n'.join(result))
-    print('\n')
+    print("\n".join(result))
+    print("\n")
